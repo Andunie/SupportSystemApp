@@ -19,7 +19,7 @@ This is a modern support ticketing system developed using **ASP.NET Core**, **Si
 
 ## Technologies Used
 
-- ASP.NET Core 7+
+- ASP.NET Core 8.0
 - SignalR for real-time communication
 - Entity Framework Core with SQL Server
 - Bootstrap 5 for UI
@@ -32,7 +32,7 @@ This is a modern support ticketing system developed using **ASP.NET Core**, **Si
 
 ### Prerequisites
 
-- [.NET SDK 7+](https://dotnet.microsoft.com/download)
+- [.NET SDK 8](https://dotnet.microsoft.com/download)
 - SQL Server (local or remote)
 - Visual Studio 2022 or VS Code
 
