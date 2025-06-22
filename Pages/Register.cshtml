@@ -1,0 +1,79 @@
+﻿@page
+@model SupportSystem.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/Register.css" />
+</head>
+<body>
+    <section class="gradient-form">
+        <div class="container">
+            <div class="card rounded-3 text-black">
+                <div class="row g-0">
+                    <div class="col-lg-6">
+                        <div class="card-body p-md-5 mx-md-4">
+                            <div class="text-center mb-5">
+                                <h4 class="mt-3">Register</h4>
+                            </div>
+
+							@if (Model.Message != null)
+							{
+								<div class="alert alert-info">@Model.Message</div>
+							}
+
+                            <form method="post">
+                                <h5 class="mb-4">Create your account</h5>
+
+                                <div class="form-outline">
+                                    <input type="text" asp-for="Username" class="form-control" required />
+                                    <label class="form-label">Username</label>
+                                </div>
+
+                                <div class="form-outline">
+                                    <input type="email" asp-for="Email" class="form-control" required />
+                                    <label class="form-label">Email</label>
+                                </div>
+                                    
+                                <div class="form-outline">
+                                    <input type="password" asp-for="Password" class="form-control" required />
+                                    <label class="form-label">Password</label>
+                                </div>
+
+                                <div class="text-center pt-1 mb-4">
+                                    <button class="btn btn-primary btn-block mb-3" type="submit">Register</button>
+                                    <a class="text-muted d-block" href="/Login">Already have an account?</a>
+                                </div>
+                            </form>
+
+                            
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 gradient-custom-2">
+                        <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+                            <h4 class="mb-4">Get started with SupportSystem</h4>
+                            <p class="small mb-0">
+                                Register to easily manage your support requests, track real-time updates,
+                                and get AI-powered assistance with your problems.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

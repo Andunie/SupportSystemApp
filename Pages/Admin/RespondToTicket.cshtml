@@ -1,0 +1,41 @@
+﻿@page "{id:int}"
+@model SupportSystemApp.Pages.Admin.RespondToTicketModel
+@{
+	Layout = "~/Pages/Shared/AdminLayout.cshtml";
+	ViewData["Title"] = "Respond to Ticket";
+}
+
+<title>@ViewData["Title"]</title>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/RespondToTicket.css" />
+
+<h3>Write your suggestion</h3>
+
+<form method="post" onsubmit="return handleSubmit(this);">
+    <div class="mb-3">
+        <label class="form-label">Your Response</label>
+        <textarea class="form-control" asp-for="AdminResponse" rows="5" required></textarea>
+    </div>
+    <input type="hidden" asp-for="TicketId" />
+    <button type="submit" class="btn btn-success" id="submitButton">
+        <span class="spinner-border spinner-border-sm d-none" id="submitSpinner" role="status" aria-hidden="true"></span>
+        <span id="submitText">Send</span>
+    </button>
+</form>
+
+</html>
+@section Scripts{
+    <script>
+        function handleSubmit(form) {
+            const button = form.querySelector("#submitButton");
+            const spinner = form.querySelector("#submitSpinner");
+            const buttonText = form.querySelector("#submitText");
+
+            button.disabled = true;
+            buttonText.innerText = "Sending...";
+            spinner.classList.remove("d-none");
+
+            return true;
+        }
+    </script>
+}

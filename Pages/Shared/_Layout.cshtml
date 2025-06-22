@@ -1,0 +1,265 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+	<meta charset="utf-8" />
+	<title>@ViewData["Title"]</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="~/css/site.css" rel="stylesheet" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<style>
+		body {
+			display: flex;
+			min-height: 100vh;
+			margin: 0;
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			background: #f5f6fa;
+		}
+
+		.sidebar {
+			width: 220px;
+			background: linear-gradient(to bottom, #1e1e2f, #2e2e4d);
+			color: white;
+			padding-top: 60px;
+			position: fixed;
+			height: 100%;
+			box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+		}
+
+			.sidebar a {
+				display: block;
+				padding: 12px 20px;
+				color: #f0f0f0;
+				text-decoration: none;
+				font-weight: 500;
+				transition: background 0.3s ease, padding-left 0.3s ease;
+				border-radius: 0 20px 20px 0;
+			}
+
+				.sidebar a:hover {
+					background: rgba(255, 255, 255, 0.1);
+					padding-left: 25px;
+					color: #ffb347;
+				}
+
+		.main-content {
+			margin-left: 220px;
+			padding: 30px;
+			flex: 1;
+			background-color: #f8f9fa;
+		}
+
+		.logout-btn {
+			width: 100%;
+			margin-top: 20px;
+			padding: 10px;
+			background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+			border: none;
+			color: white;
+			font-weight: 600;
+			border-radius: 6px;
+			transition: opacity 0.3s ease;
+		}
+
+			.logout-btn:hover {
+				opacity: 0.9;
+			}
+
+		/* Notification Dropdown Stil */
+		.nav-item.dropdown .nav-link {
+			color: #f0f0f0;
+			font-weight: 500;
+		}
+
+		.dropdown-menu {
+			background-color: #fff;
+			border-radius: 6px;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+			min-width: 300px;
+		}
+
+		.badge.bg-danger {
+			background-color: #ff4d4d !important;
+		}
+
+		.list-group-item {
+			border: none;
+		}
+
+			.list-group-item.bg-light {
+				background-color: #f8f9fa !important;
+			}
+	</style>
+</head>
+<body>
+	<!-- Sidebar -->
+	<div class="sidebar">
+		<a href="/Home">🏠 Home Page</a>
+
+		<div class="ticket-menu">
+			<a class="d-block text-white py-2 px-3" data-bs-toggle="collapse" href="#ticketSubmenu" role="button" aria-expanded="false" aria-controls="ticketSubmenu">
+				📧 Ticket ▾
+			</a>
+			<div class="collapse ps-3" id="ticketSubmenu">
+				<a class="d-block text-white py-1" href="/CreateTicket">🎫 Create Ticket</a>
+				<a class="d-block text-white py-1" href="/MyTickets">📂 My Tickets</a>
+			</div>
+		</div>
+
+		<div class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				🔔 Notifications &ensp;<span class="badge bg-danger" id="notificationCount">0</span>
+			</a>
+			<div class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown" id="notificationList">
+				<li><small><span class="dropdown-item-text text-muted">There is no notification</span></small></li>
+			</div>
+		</div>
+
+
+		<a href="/Profile">👤 Profile</a>
+		<a href="/Contact">📧 Contact</a>
+
+		<form method="post" asp-page="/Logout" class="mt-3 px-3">
+			<button type="submit" class="btn btn-danger logout-btn">Logout</button>
+		</form>
+	</div>
+
+	<!-- Main Content -->
+	<div class="main-content">
+		<header>
+			<h2>@ViewData["Title"]</h2>
+		</header>
+		<main>
+			@RenderBody()
+		</main>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	@RenderSection("Scripts", required: false)
+</body>
+</html>
+
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/notificationhub")
+        .withAutomaticReconnect()
+        .build();
+
+    async function updateUserNotificationCount() {
+        try {
+            const count = await connection.invoke("GetUnreadNotificationCount");
+            const countElem = document.getElementById("notificationCount");
+            if (countElem) {
+                countElem.innerText = count;
+            }
+            console.log("✅ Kullanıcı bildirim sayısı güncellendi:", count);
+        } catch (err) {
+            console.error("❌ Kullanıcı bildirim sayısı alınamadı:", err);
+        }
+    }
+
+    async function loadUserNotifications() {
+        try {
+            const notifications = await connection.invoke("GetAllNotifications");
+            const list = document.getElementById("notificationList");
+
+            if (!list) return;
+
+            if (!notifications || notifications.length === 0) {
+                list.innerHTML = `
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item text-center text-muted py-2">
+                                <small>There is no notification</small>
+                            </div>
+                        </div>`;
+                return;
+            }
+
+            list.innerHTML = '<div class="list-group list-group-flush"></div>';
+            const listGroup = list.querySelector('.list-group');
+
+            notifications.forEach(notification => {
+                const item = document.createElement("div");
+                item.classList.add("list-group-item", "list-group-item-action", "border-0", "py-3");
+                if (!notification.isRead) {
+                    item.classList.add("bg-light");
+                }
+
+                item.innerHTML = `
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="mb-1"><strong>${notification.message}</strong></div>
+                                ${notification.ticketTitle ? `<div class="text-muted small">Ticket: ${notification.ticketTitle}</div>` : ''}
+                                <div class="text-muted small">${notification.createdAt}</div>
+                            </div>
+                            <div class="ms-2">
+                                <span class="badge ${notification.isRead ? 'bg-success' : 'bg-secondary'}">${notification.isRead ? 'Read' : 'New'}</span>
+                            </div>
+                        </div>`;
+
+                if (!notification.isRead) {
+                    item.addEventListener("click", async function () {
+                        if (!item.classList.contains('processing')) {
+                            item.classList.add('processing');
+                            try {
+                                await connection.invoke("MarkNotificationAsRead", notification.id);
+
+                                const badge = item.querySelector(".badge");
+                                badge.classList.remove("bg-secondary");
+                                badge.classList.add("bg-success");
+                                badge.innerText = "Read";
+
+                                item.classList.remove("bg-light");
+
+                                let countElem = document.getElementById("notificationCount");
+                                let updatedCount = parseInt(countElem.innerText);
+                                countElem.innerText = Math.max(0, updatedCount - 1);
+                            } catch (error) {
+                                console.error("Bildirim okundu olarak işaretlenemedi:", error);
+                            } finally {
+                                item.classList.remove('processing');
+                            }
+                        }
+                    });
+                }
+
+                listGroup.appendChild(item);
+            });
+
+        } catch (err) {
+            console.error("❌ Kullanıcı bildirimleri yüklenemedi:", err);
+            const list = document.getElementById("notificationList");
+            if (list) {
+                list.innerHTML = `
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item text-center text-danger py-2">
+                                <small>Failed to load notifications</small>
+                            </div>
+                        </div>`;
+            }
+        }
+    }
+
+    connection.start()
+        .then(async () => {
+            console.log("✅ Kullanıcı SignalR bağlantısı kuruldu.");
+            await updateUserNotificationCount();
+            await loadUserNotifications();
+        })
+        .catch(err => {
+            console.error("❌ Kullanıcı SignalR bağlantısı kurulamadı:", err);
+        });
+
+    connection.on("ReceiveNotification", function (notification) {
+        const countElem = document.getElementById("notificationCount");
+        let currentCount = parseInt(countElem?.innerText || "0");
+        if (countElem) {
+            countElem.innerText = isNaN(currentCount) ? 1 : currentCount + 1;
+        }
+
+        toastr.info(notification.message, "Yeni Bildirim");
+        loadUserNotifications(); // Listeyi güncelle
+    });
+</script>

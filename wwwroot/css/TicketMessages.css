@@ -1,0 +1,106 @@
+﻿/* =================================================================
+   Ticket Mesajlaşma Sayfası için Özel Stiller (Baloncuk Görünümü)
+   ================================================================= */
+
+/* --- Ana Sohbet Konteyneri (Tüm Arayüz) --- */
+.chat-container {
+    display: flex;
+    flex-direction: column; /* İçeriği dikey sırala (mesajlar üstte, input altta) */
+    height: calc(100vh - 150px); /* Sayfanın büyük bir kısmını kaplasın (değeri ayarlayabilirsiniz) */
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* --- Mesajların Gösterildiği Alan (#chatBox) --- */
+#chatBox {
+    flex-grow: 1; /* Mevcut alanı doldur */
+    overflow-y: auto; /* Dikey kaydırma çubuğu */
+    padding: 1.5rem;
+    background-color: #f5f6fa; /* Hafif gri, temiz bir arkaplan */
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* Mesajlar arasına boşluk */
+}
+
+/* --- Genel Mesaj Baloncuğu Stili --- */
+.chat-bubble {
+    max-width: 75%;
+    padding: 0.8rem 1.2rem;
+    border-radius: 18px;
+    line-height: 1.4;
+    width: fit-content;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+    .chat-bubble strong {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 3px;
+        font-size: 0.9rem;
+    }
+
+    .chat-bubble span {
+        word-wrap: break-word; /* Uzun kelimeleri kır */
+    }
+
+    .chat-bubble small {
+        display: block;
+        font-size: 0.75rem;
+        opacity: 0.8;
+        margin-top: 5px;
+    }
+
+/* --- Gönderilen Mesajlar (Sizin Mesajlarınız) --- */
+.message-sent {
+    align-self: flex-end; /* Sağa yasla */
+    background: linear-gradient(to right, #ee7724, #d8363a);
+    color: #fff;
+    border-bottom-right-radius: 5px; /* Baloncuğun "kuyruk" efekti */
+}
+
+/* --- Gelen Mesajlar (Kullanıcının Mesajları) --- */
+.message-received {
+    align-self: flex-start; /* Sola yasla */
+    background-color: #e9ecef;
+    color: #333;
+    border-bottom-left-radius: 5px; /* Baloncuğun "kuyruk" efekti */
+}
+
+/* --- Mesaj Yazma Alanı --- */
+.chat-input-area {
+    display: flex;
+    padding: 1rem;
+    background-color: #fff;
+    border-top: 1px solid #eee;
+}
+
+#messageInput {
+    flex-grow: 1;
+    border: 1px solid #ddd;
+    border-right: none;
+    border-radius: 6px 0 0 6px;
+}
+
+    #messageInput:focus {
+        border-color: #ee7724;
+        box-shadow: none;
+        z-index: 2;
+    }
+
+/* Gönder Butonu */
+#sendButton {
+    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    border: none;
+    color: white;
+    font-weight: 500;
+    border-radius: 0 6px 6px 0;
+    transition: opacity 0.3s ease;
+}
+
+    #sendButton:hover {
+        opacity: 0.9;
+    }

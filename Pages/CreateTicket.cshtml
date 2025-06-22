@@ -1,0 +1,59 @@
+﻿@page
+@model SupportSystemApp.Pages.CreateTicketModel
+@{
+    ViewData["Title"] = null;
+}
+
+<link rel="stylesheet" href="~/css/CreateTicket.css" />
+
+<div class="form-wrapper">
+    <h2>Create New Ticket</h2>
+
+    @if (TempData["TicketCreatedMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["TicketCreatedMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <form method="post" enctype="multipart/form-data" onsubmit="handleFormSubmit(this)">
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label"></label>
+            <input asp-for="Title" class="form-control" required />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description" class="form-control" required></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="UploadImage" class="form-label">Ekran Görüntüsü Yükle (Opsiyonel)</label>
+            <input asp-for="UploadImage" type="file" class="form-control" accept="image/*" />
+            <span asp-validation-for="UploadImage" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="ticketSubmitButton">
+            <span class="spinner-border spinner-border-sm d-none" id="ticketSubmitSpinner" role="status" aria-hidden="true"></span>
+            <span id="ticketSubmitText">Kaydet</span>
+        </button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function handleFormSubmit(form) {
+            const btn = document.getElementById("ticketSubmitButton");
+            const spinner = document.getElementById("ticketSubmitSpinner");
+            const text = document.getElementById("ticketSubmitText");
+
+            btn.disabled = true;
+            spinner.classList.remove("d-none");
+            text.innerText = "Gönderiliyor...";
+
+            return true;
+        }
+    </script>
+}

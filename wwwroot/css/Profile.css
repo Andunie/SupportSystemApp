@@ -1,0 +1,70 @@
+﻿/* Sayfa dış kapsayıcı */
+.profile-wrapper {
+    max-width: 700px;
+    margin: 3rem auto;
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+    /* Başlık */
+    .profile-wrapper h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-weight: 600;
+        color: #333;
+    }
+
+/* Kart içeriği */
+.profile-card {
+    background-color: #ffffff;
+}
+
+/* Alt başlık */
+.section-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #444;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Etiketler */
+.form-label {
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+/* Form alanları */
+.form-control {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+    .form-control:focus {
+        border-color: #ee7724;
+        box-shadow: 0 0 0 0.2rem rgba(238, 119, 36, 0.25);
+        outline: none;
+    }
+
+/* Buton */
+.btn-primary {
+    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    border: none;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    transition: opacity 0.3s ease;
+}
+
+    .btn-primary:hover {
+        opacity: 0.9;
+        color: white;
+    }

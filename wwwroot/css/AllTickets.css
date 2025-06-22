@@ -1,0 +1,154 @@
+﻿/* =================================================================
+   Tüm Ticketlar Sayfası için Özel Stiller
+   (Koyu Tema & Login Renkleriyle Uyumlu Vurgular)
+   ================================================================= */
+
+/* --- Genel Sayfa ve Tema Ayarları --- */
+body {
+    background-color: #212529; /* Standart koyu arka plan */
+    color: #f8f9fa;
+}
+
+.container.mt-5 > p {
+    font-size: 1.3rem;
+    color: #e9ecef;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    /* Turuncu marka rengiyle güçlü bir başlık vurgusu */
+    border-left: 4px solid #ee7724;
+    padding-left: 1rem;
+}
+
+/* --- Filtreleme Formu (Koyu Tema) --- */
+.mb-3.d-flex {
+    background-color: #343a40; /* Kart benzeri koyu arkaplan */
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #495057;
+    /* Turuncu bir "glow" efekti */
+    box-shadow: 0 0 15px rgba(238, 119, 36, 0.1);
+}
+
+#priorityFilter {
+    background-color: #495057;
+    color: #fff;
+    border: 1px solid #6c757d;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+    #priorityFilter:focus {
+        border-color: #ee7724; /* Odaklanınca marka rengi */
+        background-color: #495057;
+        color: #fff;
+        box-shadow: 0 0 0 0.2rem rgba(238, 119, 36, 0.25);
+    }
+
+/* --- Ana Ticket Tablosu (Koyu Tema) --- */
+.table {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    /* Bootstrap'in table-dark'ını temel alıp geliştiriyoruz */
+    --bs-table-bg: #2c3034;
+    --bs-table-border-color: #454c52;
+    --bs-table-color: #f8f9fa;
+    /* Hover efektini iptal ediyoruz */
+    --bs-table-hover-bg: #2c3034; /* Arkaplanı aynı tut */
+    --bs-table-hover-color: #f8f9fa; /* Rengi aynı tut */
+}
+
+    /* Tablo Başlığı (thead) */
+    .table thead th {
+        color: #fff;
+        background-color: #343a40;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        /* Marka kimliğini yansıtan gradyan alt çizgi */
+        border-bottom: 3px solid transparent;
+        border-image: linear-gradient(to right, #ee7724, #d8363a) 1;
+    }
+
+    /* Tablo Satırları ve Hücreleri (tbody) */
+    .table tbody td {
+        vertical-align: middle;
+        padding: 1rem 0.75rem;
+    }
+
+/* --- Sütun İçeriklerinin Özelleştirilmesi --- */
+
+/* Durum Badge'leri */
+.badge.bg-success {
+    background-color: #198754 !important; /* Standart yeşil */
+}
+
+.badge.bg-warning {
+    background-color: #ee7724 !important; /* Marka turuncusu */
+    color: #fff !important;
+}
+
+/* Öncelik Değiştirme Dropdown'ı */
+td .form-select-sm {
+    background-color: #495057;
+    color: #fff;
+    border: 1px solid #6c757d;
+}
+
+    td .form-select-sm:focus {
+        border-color: #ee7724;
+        box-shadow: none;
+    }
+
+/* Butonlar: Response ve View Image */
+.btn-success, .btn-outline-info {
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+
+/* "Response" butonu ana gradyanı kullansın */
+.btn-success {
+    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675);
+    color: white;
+    /* 1. BUTONA NET BİR ÇERÇEVE EKLEYELİM */
+    /* Koyu temada hafif bir parlaklık vererek butonu arka plandan ayırır. */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    /* 2. DERİNLİK HİSSİ VERELİM */
+    /* İçeri doğru hafif bir gölge, butona 3D bir görünüm katar. */
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 1px 2px rgba(0, 0, 0, 0.3);
+    /* 3. GEÇİŞ EFEKTİNİ YUMUŞATALIM */
+    transition: all 0.25s ease-out;
+}
+
+    .btn-success:hover {
+        color: white; /* Rengin değişmediğinden emin olalım */
+        /* HOVER'DA DAHA PARLAK VE CANLI HALE GETİRELİM */
+        /* Gradyanın parlaklığını artırarak güçlü bir geri bildirim sağlar. */
+        filter: brightness(1.15);
+        /* BUTONU HAFİFÇE YUKARI KALDIRALIM */
+        transform: translateY(-2px);
+        /* GÖLGEYİ DAHA BELİRGİN YAPALIM */
+        /* Gradyandaki canlı pembe rengiyle uyumlu, daha büyük bir gölge. */
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 6px 20px rgba(221, 54, 117, 0.4);
+    }
+
+/* "View Image" butonu turuncu outline olsun */
+.btn-outline-info {
+    color: #ee7724;
+    border-color: #ee7724;
+}
+
+    .btn-outline-info:hover {
+        background-color: #ee7724;
+        border-color: #ee7724;
+        color: #000; /* Parlak turuncu üzerinde siyah daha okunaklı olur */
+        transform: translateY(-2px);
+    }
+
+/* Ticket Olmadığında Gösterilen Mesaj */
+.alert-info {
+    background-color: rgba(238, 119, 36, 0.1);
+    border-color: rgba(238, 119, 36, 0.4);
+    color: #f3bca0; /* Açık turuncu tonu */
+}

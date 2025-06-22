@@ -1,0 +1,129 @@
+﻿@page
+@model SupportSystemApp.Pages.MyTicketsModel
+@{
+	ViewData["Title"] = "Tickets";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">📂 My Tickets</h2>
+
+    @if (TempData["TicketSolvedMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["TicketSolvedMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["TicketNotSolvedMessage"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            @TempData["TicketNotSolvedMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["AIMessage"] != null)
+    {
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            @TempData["AIMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (Model.Tickets.Count == 0)
+    {
+        <div class="alert alert-info">
+            There is no tickets
+        </div>
+    }
+    else
+    {
+        <table class="table table-dark table-hover table-bordered">
+            <thead class="table-secondary text-center">
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Created Date</th>
+                    <th>Situation</th>
+                    <th>Messages</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ticket in Model.Tickets)
+                {
+                    <tr>
+                        <td>@ticket.Title</td>
+                        <td>
+                            @ticket.Description
+
+                            @if (!string.IsNullOrEmpty(ticket.AdminResponse))
+                            {
+                                <div class="mt-2 p-2 bg-light text-dark rounded">
+                                    <strong>Yetkili Yanıtı:</strong> @ticket.AdminResponse
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(ticket.AiResponse))
+                            {
+                                <div class="mt-2 p-2 bg-primary text-white rounded">
+                                    <strong>AI Yanıtı:</strong> @ticket.AiResponse
+                                </div>
+                            }
+
+                            <form method="post" asp-page-handler="AskAi" asp-route-id="@ticket.Id">
+                                <button type="submit" class="btn btn-sm btn-info mt-2">💡 AI'a Sor</button>
+                            </form>
+
+                            @if (!ticket.IsResolved)
+                            {
+                                <form method="post" asp-page-handler="Solve" asp-route-id="@ticket.Id">
+                                    <button type="submit" class="btn btn-sm btn-success mt-2">Sorun Çözüldü</button>
+                                </form>
+
+                                <form method="post" asp-page-handler="UnSolve" asp-route-id="@ticket.Id">
+                                    <button type="submit" class="btn btn-sm btn-danger mt-2 ml-2">Sorun Çözülmedi</button>
+                                </form>
+                            }
+                        </td>
+                        <td class="text-center">@ticket.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td class="text-center">
+                            @if (ticket.IsResolved)
+                            {
+                                <span class="badge bg-success">Solved</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">Waiting</span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            <a href="/Messages/@ticket.Id" class="btn btn-sm btn-outline-primary">Messages</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    @if (Model.TotalPages > 1)
+    {
+        <nav aria-label="My ticket pages" class="mt-4">
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                    <a class="page-link" href="?pageNumber=@(Model.PageNumber - 1)">Previous</a>
+                </li>
+
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                        <a class="page-link" href="?pageNumber=@i">@i</a>
+                    </li>
+                }
+
+                <li class="page-item @(Model.PageNumber == Model.TotalPages ? "disabled" : "")">
+                    <a class="page-link" href="?pageNumber=@(Model.PageNumber + 1)">Next</a>
+                </li>
+            </ul>
+        </nav>
+    }
+</div>

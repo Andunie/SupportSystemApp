@@ -1,0 +1,99 @@
+﻿@page "{id:int}"
+@model SupportSystemApp.Pages.Admin.TicketMessagesModel
+@using System.Security.Claims
+@{
+    Layout = "~/Pages/Shared/AdminLayout.cshtml";
+    ViewData["Title"] = "Ticket Messages (Admin)";
+}
+
+<link rel="stylesheet" href="~/css/TicketMessages.css" />
+
+<div id="chatBox" class="border p-2" style="height: 810px; overflow-y: auto;">
+    @foreach (var msg in Model.Messages)
+    {
+        var isCurrentUser = msg.SenderUserId.ToString() == User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var messageClass = isCurrentUser ? "message-sent" : "message-received";
+
+        <div class="chat-bubble @messageClass">
+            <strong>@(isCurrentUser ? "Admin" : "User"):</strong> @msg.Message <br />
+            <small>@msg.SentAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</small>
+        </div>
+    }
+</div>
+<div class="mt-2">
+    <input type="text" id="messageInput" class="form-control" placeholder="Text your message..." />
+    <button id="sendButton" class="btn btn-primary mt-2">Send</button>
+</div>
+
+@section Scripts {
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script>
+        const ticketId = @Model.TicketId;
+        const currentUserId = "@User.FindFirstValue(ClaimTypes.NameIdentifier)";
+        const chatBox = document.getElementById("chatBox");
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/ticketchathub")
+            .build();
+
+        // Sayfa yüklendiğinde en alta kaydır
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        connection.start().then(function () {
+            connection.invoke("JoinGroup", ticketId).catch(err => console.error("JoinGroup failed: ", err.toString()));
+        }).catch(err => console.error("Connection failed: ", err.toString()));
+
+        // === YENİ VE İYİLEŞTİRİLMİŞ BÖLÜM BAŞLANGICI ===
+
+        // Mesaj gönderme işlemini ayrı bir fonksiyona alıyoruz.
+        // Bu, hem butona tıklanınca hem de Enter'a basılınca aynı kodu tekrar etmemizi engeller.
+        function sendMessage() {
+            const messageInput = document.getElementById("messageInput");
+            const message = messageInput.value;
+            if (message.trim() !== "") {
+                connection.invoke("SendMessage", ticketId, currentUserId, message)
+                    .catch(err => console.error("SendMessage failed: ", err.toString()));
+                messageInput.value = "";
+                messageInput.focus(); // Gönderdikten sonra input'a geri odaklan
+            }
+        }
+
+        // 1. "Gönder" butonuna tıklandığında sendMessage fonksiyonunu çağırıyoruz.
+        document.getElementById("sendButton").addEventListener("click", sendMessage);
+
+        // 2. Mesaj giriş alanına bir olay dinleyici ekliyoruz.
+        document.getElementById("messageInput").addEventListener("keypress", function (event) {
+            // Eğer basılan tuş "Enter" ise...
+            if (event.key === "Enter") {
+                // ... varsayılan davranışı (örneğin formu göndermeye çalışmasını) engelle.
+                event.preventDefault();
+                // ... sendMessage fonksiyonumuzu çağırarak mesajı gönder.
+                sendMessage();
+            }
+        });
+
+        // === YENİ VE İYİLEŞTİRİLMİŞ BÖLÜM SONU ===
+
+
+        connection.on("ReceiveMessage", function (userId, message, timestamp) {
+            const isCurrentUser = userId === currentUserId;
+            const utcDate = new Date(timestamp + "Z"); // "Z" UTC olduğunu belirtir
+
+            const localTime = utcDate.toLocaleString("tr-TR", {
+                year: "numeric", month: "2-digit", day: "2-digit",
+                hour: "2-digit", minute: "2-digit"
+            });
+
+            const messageClass = isCurrentUser ? "message-sent" : "message-received";
+            const div = document.createElement("div");
+            div.className = `chat-bubble ${messageClass}`;
+
+            // Bu kısım Admin/User sayfasına göre farklılık gösterebilir.
+            // Admin sayfasındaysa "User", kullanıcı sayfasındaysa "Admin" yazmalı.
+            div.innerHTML = `<strong>${isCurrentUser ? "You" : "User"}:</strong> ${message}<br><small>${localTime}</small>`;
+
+            chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
+    </script>
+}

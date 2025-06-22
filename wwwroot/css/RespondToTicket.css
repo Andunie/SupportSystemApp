@@ -1,0 +1,67 @@
+﻿h3 {
+    color: #333;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* --- Formu Kart İçine Alma --- */
+/* Form, main-content içine render edileceği için bu stil sadece bu sayfayı etkiler. */
+main form {
+    max-width: 700px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Form Elemanları (Login Stiliyle Aynı) --- */
+.form-label {
+    font-weight: 500;
+    color: #666;
+}
+
+.form-control {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 0.75rem;
+    width: 100%;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    min-height: 150px;
+}
+
+    .form-control:focus {
+        border-color: #ee7724;
+        outline: none;
+        box-shadow: 0 0 0 0.2rem rgba(238, 119, 36, 0.25);
+    }
+
+/* --- Buton (Login Stiliyle Aynı) --- */
+.btn-success {
+    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    border: none;
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    transition: opacity 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .btn-success:hover {
+        opacity: 0.9;
+        color: white;
+    }
+
+    .btn-success:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+    }
+
+#submitSpinner {
+    margin-right: 0.5rem;
+}

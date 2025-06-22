@@ -1,0 +1,79 @@
+﻿@page
+@model SupportSystemApp.Pages.Admin.UsersModel
+@{
+	Layout = "~/Pages/Shared/AdminLayout.cshtml";
+	ViewData["Title"] = "View All Users";
+}
+
+<link rel="stylesheet" href="~/css/Users.css" />
+
+<div class="container mt-5">
+	<h2 class="mb-4">All Users</h2>
+
+	@if (Model.users.Count == 0)
+	{
+		<div class="alert alert-info">
+			No users found.
+		</div>
+	}
+	else
+	{
+		<table class="table table-dark table-hover table-bordered">
+			<thead class="table-secondary text-center">
+				<tr>
+					<th>Username</th>
+					<th>Email</th>
+					<th>Created At</th>
+					<th>Is Admin</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var user in Model.users)
+				{
+					<tr class="text-center">
+						<td>@user.Username</td>
+						<td>@user.Email</td>
+						<td>@user.CreatedAt.ToString("dd.MM.yyyy")</td>
+						<td>
+							@if (user.IsAdmin)
+							{
+								<span class="badge bg-success">Yes</span>
+							}
+							else
+							{
+								<span class="badge bg-secondary">No</span>
+							}
+						</td>
+						<td>
+							<form method="post" asp-page-handler="ToggleAdmin">
+								<input type="hidden" name="userId" value="@user.Id" />
+								<button type="submit" class="btn btn-sm @(user.IsAdmin ? "btn-danger" : "btn-success")">
+									@(user.IsAdmin ? "Remove Admin" : "Make Admin")
+								</button>
+							</form>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		<nav aria-label="User pagination">
+			<ul class="pagination justify-content-center mt-4">
+				<li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+					<a class="page-link" href="?pageNumber=@(Model.PageNumber - 1)">Previous</a>
+				</li>
+
+				@for (int i = 1; i <= Model.TotalPages; i++)
+				{
+					<li class="page-item @(i == Model.PageNumber ? "active" : "")">
+						<a class="page-link" href="?pageNumber=@i">@i</a>
+					</li>
+				}
+
+				<li class="page-item @(Model.PageNumber == Model.TotalPages ? "disabled" : "")">
+					<a class="page-link" href="?pageNumber=@(Model.PageNumber + 1)">Next</a>
+				</li>
+			</ul>
+		</nav>
+	}
+</div>

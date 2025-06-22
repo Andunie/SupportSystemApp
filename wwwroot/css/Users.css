@@ -1,0 +1,55 @@
+﻿/* Sayfa Başlığı */
+main h2 {
+    color: #333;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Kullanıcı Tablosu */
+main table.table {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Başlıklar */
+.table thead th {
+    background: linear-gradient(to right, #2e2e4d, #1e1e2f);
+    color: #fff;
+    font-weight: 600;
+    border: none;
+}
+
+/* Hücreler */
+.table td, .table th {
+    vertical-align: middle;
+}
+
+/* Badge ve Butonlar */
+main.badge {
+    font-size: 0.9rem;
+    padding: 0.5em 0.75em;
+}
+
+.btn-sm {
+    padding: 0.4em 0.75em;
+    font-size: 0.85rem;
+}
+
+/* Buton renk geçişleri */
+.btn-success {
+    background: linear-gradient(to right, #28a745, #218838);
+    border: none;
+}
+
+.btn-danger {
+    background: linear-gradient(to right, #dc3545, #bd2130);
+    border: none;
+}
+
+/* Bilgilendirme Kutusu */
+.alert-info {
+    text-align: center;
+    font-weight: 500;
+}

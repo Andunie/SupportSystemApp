@@ -1,0 +1,86 @@
+﻿.gradient-custom-2 {
+    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+@media (min-width: 768px) {
+    .gradient-form {
+        height: 100vh !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .gradient-custom-2 {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+    }
+}
+
+.gradient-form {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+.card {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.form-outline {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+    .form-outline input {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 0.75rem;
+        width: 100%;
+        transition: border-color 0.3s ease;
+    }
+
+        .form-outline input:focus {
+            border-color: #ee7724;
+            outline: none;
+        }
+
+    .form-outline label {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: all 0.3s ease;
+        color: #666;
+        pointer-events: none;
+    }
+
+    .form-outline input:focus + label,
+    .form-outline input:not(:placeholder-shown) + label {
+        top: -0.5rem;
+        left: 0.5rem;
+        font-size: 0.8rem;
+        background: white;
+        padding: 0 0.25rem;
+    }
+
+.btn-primary {
+    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    border: none;
+    width: 100%;
+    padding: 0.75rem;
+    font-weight: 500;
+    transition: opacity 0.3s ease;
+}
+
+    .btn-primary:hover {
+        opacity: 0.9;
+    }
