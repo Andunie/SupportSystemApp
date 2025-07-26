@@ -29,14 +29,14 @@
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="UploadImage" class="form-label">Ekran Görüntüsü Yükle (Opsiyonel)</label>
+            <label asp-for="UploadImage" class="form-label">Upload Image (Optional)</label>
             <input asp-for="UploadImage" type="file" class="form-control" accept="image/*" />
             <span asp-validation-for="UploadImage" class="text-danger"></span>
         </div>
 
         <button type="submit" class="btn btn-primary" id="ticketSubmitButton">
             <span class="spinner-border spinner-border-sm d-none" id="ticketSubmitSpinner" role="status" aria-hidden="true"></span>
-            <span id="ticketSubmitText">Kaydet</span>
+            <span id="ticketSubmitText">Save</span>
         </button>
     </form>
 </div>

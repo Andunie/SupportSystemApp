@@ -60,29 +60,29 @@
                             @if (!string.IsNullOrEmpty(ticket.AdminResponse))
                             {
                                 <div class="mt-2 p-2 bg-light text-dark rounded">
-                                    <strong>Yetkili Yanıtı:</strong> @ticket.AdminResponse
+                                    <strong>Admin Response:</strong> @ticket.AdminResponse
                                 </div>
                             }
 
                             @if (!string.IsNullOrEmpty(ticket.AiResponse))
                             {
                                 <div class="mt-2 p-2 bg-primary text-white rounded">
-                                    <strong>AI Yanıtı:</strong> @ticket.AiResponse
+                                    <strong>AI Response:</strong> @ticket.AiResponse
                                 </div>
                             }
 
                             <form method="post" asp-page-handler="AskAi" asp-route-id="@ticket.Id">
-                                <button type="submit" class="btn btn-sm btn-info mt-2">💡 AI'a Sor</button>
+                                <button type="submit" class="btn btn-sm btn-info mt-2">💡 Ask to AI</button>
                             </form>
 
                             @if (!ticket.IsResolved)
                             {
                                 <form method="post" asp-page-handler="Solve" asp-route-id="@ticket.Id">
-                                    <button type="submit" class="btn btn-sm btn-success mt-2">Sorun Çözüldü</button>
+                                    <button type="submit" class="btn btn-sm btn-success mt-2">Problem Solved</button>
                                 </form>
 
                                 <form method="post" asp-page-handler="UnSolve" asp-route-id="@ticket.Id">
-                                    <button type="submit" class="btn btn-sm btn-danger mt-2 ml-2">Sorun Çözülmedi</button>
+                                    <button type="submit" class="btn btn-sm btn-danger mt-2 ml-2">Problem Unsolved</button>
                                 </form>
                             }
                         </td>

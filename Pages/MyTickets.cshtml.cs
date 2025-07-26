@@ -74,7 +74,7 @@ namespace SupportSystemApp.Pages
             await _ticketRepository.UpdateAsync(ticket);
             await _ticketRepository.SaveChangesAsync();
 
-            TempData["TicketSolvedMessage"] = "Ticket baþarýyla çözüldü.";
+            TempData["TicketSolvedMessage"] = "Ticket solved successfuly!";
             return RedirectToPage();
         }
 
@@ -93,7 +93,7 @@ namespace SupportSystemApp.Pages
             await _ticketRepository.UpdateAsync(ticket);
             await _ticketRepository.SaveChangesAsync();
 
-            TempData["TicketNotSolvedMessage"] = "Ticket çözülemedi.";
+            TempData["TicketNotSolvedMessage"] = "Ticket unsolved!";
             return RedirectToPage();
         }
 
@@ -111,7 +111,7 @@ namespace SupportSystemApp.Pages
             await _ticketRepository.UpdateAsync(ticket);
             await _ticketRepository.SaveChangesAsync();
 
-            TempData["AIMessage"] = "AI çözüm önerisi eklendi.";
+            TempData["AIMessage"] = "AI suggestion added!";
             return RedirectToPage();
         }
     }

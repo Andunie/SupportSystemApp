@@ -16,7 +16,7 @@ namespace SupportSystemApp.Application.Services
 
         public async Task<string> GetAIResponseAsync(string userPrompt)
         {
-            string prompt = "Sana uygulama içinde, son kullanıcıdan soru sorulacaktır. Sohbet şeklinde değil de, tek seferlik olarak yanıt ver, prompt :";
+            string prompt = "Sana uygulama içinde, son kullanıcıdan soru sorulacaktır. Sohbet şeklinde değil de, tek seferlik olarak yanıt ver, lütfen promptun dili hangi dil ise o dilde cevap ver. prompt :";
             var requestUrl = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={_apiKey}";
 
             var requestBody = new
